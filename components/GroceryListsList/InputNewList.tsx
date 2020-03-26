@@ -1,6 +1,5 @@
 import React from "react";
 import { View, TextInput, StyleSheet, Button } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
 
 export default function InputNewList() {
   const [newListName, setNewListName] = React.useState("");
