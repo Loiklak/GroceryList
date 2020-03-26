@@ -1,15 +1,12 @@
 import React from "react";
-import { View, TextInput, StyleSheet, Button } from "react-native";
+import { View, TextInput, StyleSheet, Button, Keyboard } from "react-native";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
-  return state;
-};
-
-export default connect(mapStateToProps)(function InputNewItem(props: any) {
+export default connect()(function InputNewItem(props: any) {
   const [newListName, setNewListName] = React.useState("");
 
   function addItem() {
+    Keyboard.dismiss();
     const action = { type: "ADD_ITEM", value: newListName };
     props.dispatch(action);
     setNewListName("");
@@ -22,6 +19,7 @@ export default connect(mapStateToProps)(function InputNewItem(props: any) {
         placeholder="Ma nouvelle liste de courses"
         onChangeText={text => setNewListName(text)}
         value={newListName}
+        onSubmitEditing={addItem}
       />
       <Button onPress={addItem} title="add"></Button>
     </View>

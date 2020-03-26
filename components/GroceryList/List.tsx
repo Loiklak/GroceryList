@@ -9,14 +9,27 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(function List(props: any) {
+  function deleteItem(item) {
+    return () => {
+      const action = { type: "DELETE_ITEM", value: item };
+      props.dispatch(action);
+    };
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Vos listes de course :</Text>
+      <Text style={styles.label}>Ce que tu dois acheter :</Text>
       <FlatList
         data={props.groceryList}
         renderItem={({ item }) => (
-          <Text style={styles.listElement}>{item}</Text>
+          <View style={styles.listElement}>
+            <Text style={styles.textListElement}>- {item}</Text>
+            <Text onPress={deleteItem(item)} style={styles.textListElement}>
+              ❌
+            </Text>
+          </View>
         )}
+        keyExtractor={(item, index) => "key" + index}
       />
     </View>
   );
@@ -32,8 +45,15 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   listElement: {
-    fontSize: 20,
-    marginTop: 10,
-    marginBottom: 10
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#d1d1d1",
+    borderRadius: 5
+  },
+  textListElement: {
+    fontSize: 25
   }
 });

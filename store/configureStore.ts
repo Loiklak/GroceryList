@@ -1,4 +1,4 @@
 import { createStore } from "redux";
-import addItem from "./reducers/groceryListReducer";
+import groceryListReducers from "./reducers/groceryListReducer";
 
-export default createStore(addItem);
+export default createStore(groceryListReducers);

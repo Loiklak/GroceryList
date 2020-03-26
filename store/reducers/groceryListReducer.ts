@@ -1,6 +1,6 @@
 const initialState = { groceryList: [] };
 
-function addItem(state = initialState, action) {
+function groceryListReducers(state = initialState, action) {
   let nextState;
   switch (action.type) {
     case "ADD_ITEM":
@@ -9,9 +9,15 @@ function addItem(state = initialState, action) {
         groceryList: [...state.groceryList, action.value]
       };
       return nextState;
+    case "DELETE_ITEM":
+      nextState = {
+        ...state,
+        groceryList: state.groceryList.filter(item => item != action.value)
+      };
+      return nextState;
     default:
       return state;
   }
 }
 
-export default addItem;
+export default groceryListReducers;
