@@ -5,15 +5,11 @@ import List from "./List";
 
 export default function GroceryList() {
   return (
-    <View style={styles.container}>
+    <View>
       <InputNewItem />
       <List />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10
-  }
-});
+const styles = StyleSheet.create({});

@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
+import { ListItem, Text, CheckBox } from "react-native-elements";
 
 const mapStateToProps = state => {
   return {
@@ -16,21 +17,31 @@ export default connect(mapStateToProps)(function List(props: any) {
     };
   }
 
+  function toggleCheck(item) {
+    return () => {
+      const action = { type: "TOGGLE_CHECK", value: item };
+      props.dispatch(action);
+    };
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Ce que tu dois acheter :</Text>
-      <FlatList
-        data={props.groceryList}
-        renderItem={({ item }) => (
-          <View style={styles.listElement}>
-            <Text style={styles.textListElement}>- {item}</Text>
-            <Text onPress={deleteItem(item)} style={styles.textListElement}>
-              ❌
-            </Text>
-          </View>
-        )}
-        keyExtractor={(item, index) => "key" + index}
-      />
+      <Text h4 style={{ textAlign: "center", marginBottom: 5 }}>
+        Liste
+      </Text>
+      {props.groceryList
+        .sort((a: any, b: any) => {
+          return a.checked ? 1 : b.checked ? -1 : 0;
+        })
+        .map((l, i) => (
+          <CheckBox
+            key={i}
+            title={l.name}
+            checked={l.checked}
+            onLongPress={deleteItem(l.name)}
+            onPress={toggleCheck(l.name)}
+          />
+        ))}
     </View>
   );
 });
@@ -39,21 +50,5 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     marginBottom: 10
-  },
-  label: {
-    fontSize: 25,
-    marginBottom: 10
-  },
-  listElement: {
-    marginTop: 5,
-    marginBottom: 5,
-    padding: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#d1d1d1",
-    borderRadius: 5
-  },
-  textListElement: {
-    fontSize: 25
   }
 });
