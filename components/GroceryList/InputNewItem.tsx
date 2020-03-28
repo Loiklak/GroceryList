@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Input, Icon, Text, Overlay } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 import { connect } from "react-redux";
 
@@ -72,68 +73,83 @@ export default connect()(function InputNewItem(props: any) {
     quantity == 0 && qtyRef.current.focus();
   }
 
+  const gestureConfig = {
+    // sensibilité à la vitesse pour détecter un swipe
+    velocityThreshold: 0.3,
+    // sensibilité de déplacer pour trancher entre un clic et un swipe
+    gestureIsClickThreshold: 1,
+    // déplacement max pour un swipe
+    directionalOffsetThreshold: 100
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleWindow}>
-        <Text
+      <GestureRecognizer
+        onSwipeUp={toggleWindow}
+        onSwipeDown={toggleWindow}
+        config={gestureConfig}
+      >
+        <TouchableOpacity onPress={toggleWindow}>
+          <Text
+            style={{
+              fontSize: 25,
+              textAlign: "center",
+              margin: 5
+            }}
+          >
+            Nouvel article
+          </Text>
+        </TouchableOpacity>
+        <Animated.View
           style={{
-            fontSize: 25,
-            textAlign: "center",
-            margin: 5
+            height: dropdownSize,
+            width: "auto",
+            overflow: "hidden",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "flex-end",
+            flexWrap: "wrap"
           }}
         >
-          Nouvel article
-        </Text>
-      </TouchableOpacity>
-      <Animated.View
-        style={{
-          height: dropdownSize,
-          width: "auto",
-          overflow: "hidden",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-end",
-          flexWrap: "wrap"
-        }}
-      >
-        <Input
-          placeholder="Nouvel article"
-          onChangeText={text => setNewListName(text)}
-          value={newListName}
-          containerStyle={{ width: "100%" }}
-          onSubmitEditing={focusQtyType}
-        />
-        <Dropdown
-          ref={qtyTypeRef}
-          label="Type de qté"
-          data={quantityTypes}
-          containerStyle={{ width: "95%" }}
-          value={quantityType}
-          onChangeText={text => {
-            setQuantityType(text);
-            setTimeout(() => focusQty(), 500);
-          }}
-        />
-        <Input
-          ref={qtyRef}
-          placeholder="Quantité"
-          onChangeText={text =>
-            text == "" ? setQuantity(0) : setQuantity(parseInt(text))
-          }
-          keyboardType="numeric"
-          value={quantity == 0 ? null : String(quantity)}
-          containerStyle={{ width: "100%", marginBottom: 5 }}
-          onSubmitEditing={addItem}
-        />
-        <Icon
-          type="material"
-          name="add"
-          color="#b8eb9b"
-          size={20}
-          reverse
-          onPress={addItem}
-        />
-      </Animated.View>
+          <Input
+            placeholder="Nouvel article"
+            onChangeText={text => setNewListName(text)}
+            value={newListName}
+            containerStyle={{ width: "100%" }}
+            onSubmitEditing={focusQtyType}
+          />
+          <Dropdown
+            ref={qtyTypeRef}
+            label="Type de qté"
+            data={quantityTypes}
+            containerStyle={{ width: "95%" }}
+            value={quantityType}
+            onChangeText={text => {
+              setQuantityType(text);
+              setTimeout(() => focusQty(), 500);
+            }}
+          />
+          <Input
+            ref={qtyRef}
+            placeholder="Quantité"
+            onChangeText={text =>
+              text == "" ? setQuantity(0) : setQuantity(parseInt(text))
+            }
+            keyboardType="numeric"
+            value={quantity == 0 ? null : String(quantity)}
+            containerStyle={{ width: "100%", marginBottom: 5 }}
+            onSubmitEditing={addItem}
+          />
+          <Icon
+            type="material"
+            name="add"
+            color="#b8eb9b"
+            size={20}
+            reverse
+            onPress={addItem}
+          />
+        </Animated.View>
+      </GestureRecognizer>
       <Overlay
         isVisible={warningVisibility}
         onBackdropPress={() => setWarningVisibility(false)}
