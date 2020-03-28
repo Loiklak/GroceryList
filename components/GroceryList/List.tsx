@@ -24,6 +24,9 @@ export default connect(mapStateToProps)(function List(props: any) {
     setLiftDropList([]);
   }
   function addLiftDrop(newLiftDrop) {
+    if (liftDropList.length > 0) {
+      liftDrops();
+    }
     setLiftDropList([...liftDropList, newLiftDrop]);
   }
 
@@ -37,8 +40,12 @@ export default connect(mapStateToProps)(function List(props: any) {
           .sort((a: groceryListItem, b: groceryListItem) => {
             return a.checked ? 1 : b.checked ? -1 : 0;
           })
-          .map((l: groceryListItem, i: number) => (
-            <ListItem listItem={l} key={i} addLiftDrop={addLiftDrop} />
+          .map((l: groceryListItem) => (
+            <ListItem
+              listItem={l}
+              key={l.item.name}
+              addLiftDrop={addLiftDrop}
+            />
           ))}
       </View>
     </TouchableWithoutFeedback>

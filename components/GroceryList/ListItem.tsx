@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Animated } from "react-native";
 import { connect, ConnectedProps } from "react-redux";
 import { Text, CheckBox, Icon } from "react-native-elements";
+import ListItemOptions from "./ListItemOptions";
 
 import {
   groceryListItem,
@@ -18,9 +19,9 @@ export default connect()(function ListItem(props: ListItemProps) {
   function formatGroceryName(item: groceryListItem) {
     const accordEnNombre = item.item.quantity > 1 ? "s" : "";
     const quantity =
-      item.item.quantityType == "unité" || item.item.quantityType == "bouteille"
+      item.item.quantityType == "unité"
         ? `${item.item.quantity}`
-        : `${item.item.quantity}${item.item.quantityType} de`;
+        : `${item.item.quantity} ${item.item.quantityType} de`;
     return `${quantity} ${item.item.name}`;
   }
 
@@ -56,6 +57,17 @@ export default connect()(function ListItem(props: ListItemProps) {
     liftOptions();
   }
 
+  function modifyQuantity(newQuantity: number) {
+    const action: reduxGroceryAction = {
+      type: "MODIFY_GROCERY_ITEM",
+      value: {
+        ...props.listItem,
+        item: { ...props.listItem.item, quantity: newQuantity }
+      }
+    };
+    props.dispatch(action);
+  }
+
   return (
     <View style={styles.container}>
       <CheckBox
@@ -77,13 +89,10 @@ export default connect()(function ListItem(props: ListItemProps) {
           overflow: "hidden"
         }}
       >
-        <Icon
-          type="material"
-          name="delete"
-          color="red"
-          size={20}
-          reverse
-          onPress={deleteItem}
+        <ListItemOptions
+          deleteItem={deleteItem}
+          modifyQuantity={modifyQuantity}
+          quantity={props.listItem.item.quantity}
         />
       </Animated.View>
     </View>

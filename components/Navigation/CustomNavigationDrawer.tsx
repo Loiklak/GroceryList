@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -10,7 +11,10 @@ export default function CustomDrawerContent(props: any) {
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       {/* Here we added an element to our Drawer list */}
-      <DrawerItem label="Help" onPress={() => alert("Link to help")} />
+      <DrawerItem
+        label="Help"
+        onPress={() => Alert.alert("Contact", "mail: loic.chau@student-cs.fr")}
+      />
     </DrawerContentScrollView>
   );
 }

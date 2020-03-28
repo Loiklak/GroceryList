@@ -45,7 +45,7 @@ function groceryListReducers(
       };
       return nextState;
 
-    case "MODIFY_GROCERYITEM":
+    case "MODIFY_GROCERY_ITEM":
       const itemIdQty = state.groceryList.findIndex(
         listItem => listItem.item.name == action.value.item.name
       );
