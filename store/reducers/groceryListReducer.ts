@@ -1,5 +1,4 @@
 import {
-  groceryListItem,
   reduxGroceryState,
   reduxGroceryAction
 } from "../../types/groceryListsType";
@@ -37,12 +36,27 @@ function groceryListReducers(
       );
       const newGroceryList = [...state.groceryList];
       newGroceryList[itemId] = {
-        item: action.value.item,
+        ...newGroceryList[itemId],
         checked: !newGroceryList[itemId].checked
       };
       nextState = {
         ...state,
         groceryList: newGroceryList
+      };
+      return nextState;
+
+    case "MODIFY_GROCERYITEM":
+      const itemIdQty = state.groceryList.findIndex(
+        listItem => listItem.item.name == action.value.item.name
+      );
+      const newGroceryListQty = [...state.groceryList];
+      newGroceryListQty[itemIdQty] = {
+        ...newGroceryListQty[itemIdQty],
+        item: action.value.item
+      };
+      nextState = {
+        ...state,
+        groceryList: newGroceryListQty
       };
       return nextState;
 

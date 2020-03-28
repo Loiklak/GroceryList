@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
-import { Input, Tooltip, Icon, Text, Overlay } from "react-native-elements";
+import { Input, Icon, Text, Overlay } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 
 import { connect } from "react-redux";

@@ -1,15 +1,22 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import InputNewItem from "./InputNewItem";
 import List from "./List";
 
 export default function GroceryList() {
   return (
-    <View>
+    <View style={styles.container}>
       <InputNewItem />
-      <List />
+      <List style={styles.list} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  list: {
+    flex: 1
+  }
+});
