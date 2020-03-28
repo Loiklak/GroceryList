@@ -1,6 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Keyboard, Animated } from "react-native";
-import { Input, Icon, Text, Overlay, Image } from "react-native-elements";
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  Animated,
+  TouchableOpacity
+} from "react-native";
+import { Input, Icon, Text, Overlay } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 
 import { connect } from "react-redux";
@@ -19,7 +25,7 @@ export default connect()(function InputNewItem(props: any) {
     const value = (dropdownSize as any)._value > 0 ? 0 : 230;
     Animated.timing(dropdownSize, {
       toValue: value,
-      duration: 200
+      duration: 300
     }).start();
   }
 
@@ -68,15 +74,17 @@ export default connect()(function InputNewItem(props: any) {
 
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          fontSize: 25,
-          textAlign: "center"
-        }}
-        onPress={toggleWindow}
-      >
-        Nouvel article
-      </Text>
+      <TouchableOpacity onPress={toggleWindow}>
+        <Text
+          style={{
+            fontSize: 25,
+            textAlign: "center",
+            margin: 5
+          }}
+        >
+          Nouvel article
+        </Text>
+      </TouchableOpacity>
       <Animated.View
         style={{
           height: dropdownSize,

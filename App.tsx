@@ -9,8 +9,8 @@ import GroceryListsList from "./components/GroceryListsList/GroceryListsList";
 import GroceryList from "./components/GroceryList/GroceryList";
 
 const pages: NavigatorScreenItem[] = [
-  { name: "Home", component: Home },
-  { name: "Mes listes de course", component: GroceryListsList },
+  /* { name: "Home", component: Home },
+  { name: "Mes listes de course", component: GroceryListsList }, */
   { name: "Ma liste de courses", component: GroceryList }
 ];
 
