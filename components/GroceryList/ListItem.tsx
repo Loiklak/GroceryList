@@ -58,14 +58,18 @@ export default connect()(function ListItem(props: ListItemProps) {
   }
 
   function modifyQuantity(newQuantity: number) {
-    const action: reduxGroceryAction = {
-      type: "MODIFY_GROCERY_ITEM",
-      value: {
-        ...props.listItem,
-        item: { ...props.listItem.item, quantity: newQuantity }
-      }
-    };
-    props.dispatch(action);
+    if (newQuantity < 0) {
+      deleteItem();
+    } else {
+      const action: reduxGroceryAction = {
+        type: "MODIFY_GROCERY_ITEM",
+        value: {
+          ...props.listItem,
+          item: { ...props.listItem.item, quantity: newQuantity }
+        }
+      };
+      props.dispatch(action);
+    }
   }
 
   return (
