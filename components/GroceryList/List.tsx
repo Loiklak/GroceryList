@@ -33,7 +33,13 @@ export default connect(mapStateToProps)(function List(props: any) {
   return (
     <TouchableWithoutFeedback onPress={liftDrops}>
       <View style={styles.container}>
-        <Text h4 style={{ textAlign: "center", marginBottom: 5 }}>
+        <Text
+          style={{
+            textAlign: "center",
+            margin: 5,
+            fontSize: 30
+          }}
+        >
           Liste
         </Text>
         {props.groceryList
@@ -54,8 +60,9 @@ export default connect(mapStateToProps)(function List(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 5,
-    marginBottom: 10,
-    flex: 1
+    margin: 5,
+    flex: 1,
+    backgroundColor: "rgba(256, 256, 256, 0.9)",
+    borderRadius: 10
   }
 });

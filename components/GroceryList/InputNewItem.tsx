@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Keyboard, Animated } from "react-native";
-import { Input, Icon, Text, Overlay } from "react-native-elements";
+import { Input, Icon, Text, Overlay, Image } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 
 import { connect } from "react-redux";
@@ -10,7 +10,7 @@ import { quantityType } from "../../types/groceryListsType";
 export default connect()(function InputNewItem(props: any) {
   const [newListName, setNewListName] = React.useState("");
   const [quantity, setQuantity] = React.useState(0);
-  const [quantityType, setQuantityType] = React.useState<quantityType>("unité");
+  const [quantityType, setQuantityType] = React.useState<quantityType | "">("");
   const [warningVisibility, setWarningVisibility] = React.useState(false);
   const [dropdownSize, setDropdownSize] = React.useState(
     new Animated.Value(230)
@@ -52,24 +52,27 @@ export default connect()(function InputNewItem(props: any) {
       props.dispatch(action);
       setNewListName("");
       setQuantity(0);
-      setQuantityType("unité");
+      setQuantityType("");
     } else {
       setWarningVisibility(true);
     }
   }
 
   function focusQtyType() {
-    qtyTypeRef.current.focus();
+    quantityType == "" && qtyTypeRef.current.focus();
   }
 
   function focusQty() {
-    qtyRef.current.focus();
+    quantity == 0 && qtyRef.current.focus();
   }
 
   return (
     <View style={styles.container}>
       <Text
-        style={{ fontSize: 25, textAlign: "center" }}
+        style={{
+          fontSize: 25,
+          textAlign: "center"
+        }}
         onPress={toggleWindow}
       >
         Nouvel article
@@ -111,12 +114,12 @@ export default connect()(function InputNewItem(props: any) {
           }
           keyboardType="numeric"
           value={quantity == 0 ? null : String(quantity)}
-          containerStyle={{ width: "100%" }}
+          containerStyle={{ width: "100%", marginBottom: 5 }}
           onSubmitEditing={addItem}
         />
         <Icon
-          type="font-awesome"
-          name="plus-square"
+          type="material"
+          name="add"
           color="#b8eb9b"
           size={20}
           reverse
@@ -141,7 +144,8 @@ export default connect()(function InputNewItem(props: any) {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    backgroundColor: "#fff",
-    borderRadius: 10
+    backgroundColor: "rgba(256, 256, 256, 0.96)",
+    borderRadius: 10,
+    margin: 5
   }
 });
