@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Animated } from "react-native";
-import { connect, ConnectedProps } from "react-redux";
-import { Text, CheckBox, Icon } from "react-native-elements";
+import { connect } from "react-redux";
+import { CheckBox } from "react-native-elements";
 import ListItemOptions from "./ListItemOptions";
 
 import {
