@@ -8,6 +8,7 @@ import {
   groceryListItem,
   reduxGroceryState
 } from "../../types/groceryListsType";
+import { ScrollView } from "react-native-gesture-handler";
 
 const mapStateToProps = function(
   state: reduxGroceryState
@@ -42,17 +43,19 @@ export default connect(mapStateToProps)(function List(props: any) {
         >
           Liste
         </Text>
-        {props.groceryList
-          .sort((a: groceryListItem, b: groceryListItem) => {
-            return a.checked ? 1 : b.checked ? -1 : 0;
-          })
-          .map((l: groceryListItem) => (
-            <ListItem
-              listItem={l}
-              key={l.item.name}
-              addLiftDrop={addLiftDrop}
-            />
-          ))}
+        <ScrollView>
+          {props.groceryList
+            .sort((a: groceryListItem, b: groceryListItem) => {
+              return a.checked ? 1 : b.checked ? -1 : 0;
+            })
+            .map((l: groceryListItem) => (
+              <ListItem
+                listItem={l}
+                key={l.item.name}
+                addLiftDrop={addLiftDrop}
+              />
+            ))}
+        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   );
