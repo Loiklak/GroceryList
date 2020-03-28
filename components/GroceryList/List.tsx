@@ -54,7 +54,7 @@ export default connect(mapStateToProps)(function List(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 5,
     marginBottom: 10,
     flex: 1
   }

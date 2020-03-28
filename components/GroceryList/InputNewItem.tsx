@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard, Animated } from "react-native";
 import { Input, Icon, Text, Overlay } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 
@@ -12,6 +12,16 @@ export default connect()(function InputNewItem(props: any) {
   const [quantity, setQuantity] = React.useState(0);
   const [quantityType, setQuantityType] = React.useState<quantityType>("unité");
   const [warningVisibility, setWarningVisibility] = React.useState(false);
+  const [dropdownSize, setDropdownSize] = React.useState(
+    new Animated.Value(230)
+  );
+  function toggleWindow() {
+    const value = (dropdownSize as any)._value > 0 ? 0 : 230;
+    Animated.timing(dropdownSize, {
+      toValue: value,
+      duration: 200
+    }).start();
+  }
 
   let qtyRef = React.useRef<Input>();
   let qtyTypeRef = React.useRef<HTMLElement>();
@@ -58,43 +68,61 @@ export default connect()(function InputNewItem(props: any) {
 
   return (
     <View style={styles.container}>
-      <Input
-        placeholder="Nouvel article"
-        onChangeText={text => setNewListName(text)}
-        value={newListName}
-        containerStyle={{ width: "100%" }}
-        onSubmitEditing={focusQtyType}
-      />
-      <Dropdown
-        ref={qtyTypeRef}
-        label="Type de qté"
-        data={quantityTypes}
-        containerStyle={{ width: "95%" }}
-        value={quantityType}
-        onChangeText={text => {
-          setQuantityType(text);
-          setTimeout(() => focusQty(), 500);
+      <Text
+        style={{ fontSize: 25, textAlign: "center" }}
+        onPress={toggleWindow}
+      >
+        Nouvel article
+      </Text>
+      <Animated.View
+        style={{
+          height: dropdownSize,
+          width: "auto",
+          overflow: "hidden",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "flex-end",
+          flexWrap: "wrap"
         }}
-      />
-      <Input
-        ref={qtyRef}
-        placeholder="Quantité"
-        onChangeText={text =>
-          text == "" ? setQuantity(0) : setQuantity(parseInt(text))
-        }
-        keyboardType="numeric"
-        value={quantity == 0 ? null : String(quantity)}
-        containerStyle={{ width: "auto", minWidth: "100%" }}
-        onSubmitEditing={addItem}
-      />
-      <Icon
-        type="font-awesome"
-        name="plus-square"
-        color="#b8eb9b"
-        size={20}
-        reverse
-        onPress={addItem}
-      />
+      >
+        <Input
+          placeholder="Nouvel article"
+          onChangeText={text => setNewListName(text)}
+          value={newListName}
+          containerStyle={{ width: "100%" }}
+          onSubmitEditing={focusQtyType}
+        />
+        <Dropdown
+          ref={qtyTypeRef}
+          label="Type de qté"
+          data={quantityTypes}
+          containerStyle={{ width: "95%" }}
+          value={quantityType}
+          onChangeText={text => {
+            setQuantityType(text);
+            setTimeout(() => focusQty(), 500);
+          }}
+        />
+        <Input
+          ref={qtyRef}
+          placeholder="Quantité"
+          onChangeText={text =>
+            text == "" ? setQuantity(0) : setQuantity(parseInt(text))
+          }
+          keyboardType="numeric"
+          value={quantity == 0 ? null : String(quantity)}
+          containerStyle={{ width: "100%" }}
+          onSubmitEditing={addItem}
+        />
+        <Icon
+          type="font-awesome"
+          name="plus-square"
+          color="#b8eb9b"
+          size={20}
+          reverse
+          onPress={addItem}
+        />
+      </Animated.View>
       <Overlay
         isVisible={warningVisibility}
         onBackdropPress={() => setWarningVisibility(false)}
@@ -112,10 +140,8 @@ export default connect()(function InputNewItem(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    flexWrap: "wrap",
-    marginTop: 10
+    marginTop: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10
   }
 });
