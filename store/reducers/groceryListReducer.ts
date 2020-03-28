@@ -16,10 +16,7 @@ function groceryListReducers(
     case "ADD_ITEM":
       nextState = {
         ...state,
-        groceryList: [
-          ...state.groceryList,
-          { item: action.value.item, checked: false }
-        ]
+        groceryList: [...state.groceryList, action.value]
       };
       return nextState;
 

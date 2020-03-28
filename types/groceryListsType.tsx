@@ -3,7 +3,7 @@ type groceryList = {
   icon: string;
 };
 
-type quantityType = "kg" | "g" | "qté" | "L" | "cL";
+type quantityType = "kg" | "g" | "unité" | "L" | "cL" | "bouteille";
 
 type groceryItem = {
   name: string;

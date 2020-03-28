@@ -3,23 +3,45 @@ import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { Text, CheckBox } from "react-native-elements";
 
-const mapStateToProps = state => {
+import {
+  groceryListItem,
+  reduxGroceryState
+} from "../../types/groceryListsType";
+
+const mapStateToProps = function(
+  state: reduxGroceryState
+): { groceryList: groceryListItem[] } {
   return {
     groceryList: state.groceryList
   };
 };
 
 export default connect(mapStateToProps)(function List(props: any) {
-  function deleteItem(item) {
+  function formatGroceryName(item: groceryListItem) {
+    const accordEnNombre = item.item.quantity > 1 ? "s" : "";
+    const quantity =
+      item.item.quantityType == "unité" || item.item.quantityType == "bouteille"
+        ? `${item.item.quantity}`
+        : `${item.item.quantity}${item.item.quantityType} de`;
+    return `${quantity} ${item.item.name}`;
+  }
+
+  function deleteItem(itemName) {
     return () => {
-      const action = { type: "DELETE_ITEM", value: item };
+      const action = {
+        type: "DELETE_ITEM",
+        value: props.groceryList.find(item => (item.name = itemName))
+      };
       props.dispatch(action);
     };
   }
 
-  function toggleCheck(item) {
+  function toggleCheck(itemName) {
     return () => {
-      const action = { type: "TOGGLE_CHECK", value: item };
+      const action = {
+        type: "TOGGLE_CHECK",
+        value: props.groceryList.find(item => (item.name = itemName))
+      };
       props.dispatch(action);
     };
   }
@@ -30,16 +52,16 @@ export default connect(mapStateToProps)(function List(props: any) {
         Liste
       </Text>
       {props.groceryList
-        .sort((a: any, b: any) => {
+        .sort((a: groceryListItem, b: groceryListItem) => {
           return a.checked ? 1 : b.checked ? -1 : 0;
         })
-        .map((l, i) => (
+        .map((l: groceryListItem, i: number) => (
           <CheckBox
             key={i}
-            title={l.name}
+            title={formatGroceryName(l)}
             checked={l.checked}
-            onLongPress={deleteItem(l.name)}
-            onPress={toggleCheck(l.name)}
+            onLongPress={deleteItem(l.item.name)}
+            onPress={toggleCheck(l.item.name)}
           />
         ))}
     </View>
