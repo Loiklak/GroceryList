@@ -30,13 +30,13 @@ export default connect()(function ListItem(props: ListItemProps) {
     props.addLiftDrop(liftOptions);
     Animated.timing(dropdownSize, {
       toValue: 60,
-      duration: 100
+      duration: 300
     }).start();
   }
   function liftOptions() {
     Animated.timing(dropdownSize, {
       toValue: 0,
-      duration: 100
+      duration: 200
     }).start();
   }
 
