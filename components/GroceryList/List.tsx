@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { ListItem, Text, CheckBox } from "react-native-elements";
+import { Text, CheckBox } from "react-native-elements";
 
 const mapStateToProps = state => {
   return {
