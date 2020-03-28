@@ -58,9 +58,7 @@ export default connect()(function ListItem(props: ListItemProps) {
   }
 
   function modifyQuantity(newQuantity: number) {
-    if (newQuantity < 0) {
-      deleteItem();
-    } else {
+    if (newQuantity >= 0) {
       const action: reduxGroceryAction = {
         type: "MODIFY_GROCERY_ITEM",
         value: {
