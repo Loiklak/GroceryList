@@ -7,12 +7,10 @@ import {
   TouchableOpacity,
   Alert
 } from "react-native";
-import { Input, Icon, Text, Overlay } from "react-native-elements";
+import { Input, Icon, Text, Overlay, Divider } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 import GestureRecognizer from "react-native-swipe-gestures";
-
 import { connect, ConnectedProps } from "react-redux";
-
 import {
   quantityType,
   groceryListItem,
@@ -20,6 +18,7 @@ import {
   reduxGroceryAction
 } from "../../types/groceryListsType";
 
+// Props and redux
 const mapStateToProps = function(
   state: reduxGroceryState
 ): { groceryList: groceryListItem[] } {
@@ -27,7 +26,6 @@ const mapStateToProps = function(
     groceryList: state.groceryList
   };
 };
-
 type InputNewItemProps = ConnectedProps & {
   groceryList: groceryListItem[];
 };
@@ -35,7 +33,7 @@ type InputNewItemProps = ConnectedProps & {
 export default connect(mapStateToProps)(function InputNewItem(
   props: InputNewItemProps
 ) {
-  const [newListName, setNewListName] = React.useState("");
+  const [newArticle, setNewArticle] = React.useState("");
   const [quantity, setQuantity] = React.useState(0);
   const [quantityType, setQuantityType] = React.useState<quantityType | "">("");
   const [warningVisibility, setWarningVisibility] = React.useState(false);
@@ -44,6 +42,7 @@ export default connect(mapStateToProps)(function InputNewItem(
   );
   function toggleWindow() {
     const value = (dropdownSize as any)._value > 0 ? 0 : 230;
+    (dropdownSize as any)._value == 0 && focusArticleName();
     Animated.timing(dropdownSize, {
       toValue: value,
       duration: 300
@@ -52,6 +51,7 @@ export default connect(mapStateToProps)(function InputNewItem(
 
   let qtyRef = React.useRef<Input>();
   let qtyTypeRef = React.useRef<HTMLElement>();
+  let articleRef = React.useRef<Input>();
 
   const quantityTypes = [
     { value: "unité" },
@@ -63,7 +63,7 @@ export default connect(mapStateToProps)(function InputNewItem(
   ];
 
   function flushInputs() {
-    setNewListName("");
+    setNewArticle("");
     setQuantity(0);
     setQuantityType("");
   }
@@ -71,17 +71,17 @@ export default connect(mapStateToProps)(function InputNewItem(
   function addItem() {
     if (
       props.groceryList.reduce((accumulator, currValue) => {
-        return accumulator || currValue.item.name == newListName;
+        return accumulator || currValue.item.name == newArticle;
       }, false)
     ) {
       handleAlreadyExistingItem();
-    } else if (newListName != "" && quantity > 0) {
+    } else if (newArticle != "" && quantity > 0) {
       Keyboard.dismiss();
       const action = {
         type: "ADD_ITEM",
         value: {
           item: {
-            name: newListName,
+            name: newArticle,
             quantity: quantity,
             quantityType: quantityType
           },
@@ -97,7 +97,7 @@ export default connect(mapStateToProps)(function InputNewItem(
 
   function handleAlreadyExistingItem() {
     const redundantItem = props.groceryList.find(
-      item => item.item.name == newListName
+      item => item.item.name == newArticle
     );
     Alert.alert(
       "Cet article existe déjà",
@@ -130,6 +130,10 @@ export default connect(mapStateToProps)(function InputNewItem(
     props.dispatch(action);
   }
 
+  function focusArticleName() {
+    newArticle == "" && articleRef.current.focus();
+  }
+
   function focusQtyType() {
     quantityType == "" && qtyTypeRef.current.focus();
   }
@@ -154,17 +158,10 @@ export default connect(mapStateToProps)(function InputNewItem(
         onSwipeDown={toggleWindow}
         config={gestureConfig}
       >
-        <TouchableOpacity onPress={toggleWindow}>
-          <Text
-            style={{
-              fontSize: 25,
-              textAlign: "center",
-              margin: 5
-            }}
-          >
-            Nouvel article
-          </Text>
+        <TouchableOpacity onPress={toggleWindow} style={styles.header}>
+          <Text style={styles.headerText}>Nouvel article</Text>
         </TouchableOpacity>
+        <Divider />
         <Animated.View
           style={{
             height: dropdownSize,
@@ -177,9 +174,10 @@ export default connect(mapStateToProps)(function InputNewItem(
           }}
         >
           <Input
+            ref={articleRef}
             placeholder="Nouvel article"
-            onChangeText={text => setNewListName(text)}
-            value={newListName}
+            onChangeText={text => setNewArticle(text)}
+            value={newArticle}
             containerStyle={{ width: "100%" }}
             onSubmitEditing={focusQtyType}
           />
@@ -205,13 +203,7 @@ export default connect(mapStateToProps)(function InputNewItem(
             containerStyle={{ width: "100%", marginBottom: 5 }}
             onSubmitEditing={addItem}
           />
-          <View
-            style={{
-              width: "60%",
-              flexDirection: "row",
-              justifyContent: "space-around"
-            }}
-          >
+          <View style={styles.iconsBar}>
             <Icon
               type="material"
               name="delete"
@@ -252,5 +244,19 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(256, 256, 256, 0.96)",
     borderRadius: 10,
     margin: 5
+  },
+  header: {
+    backgroundColor: "white",
+    borderRadius: 10
+  },
+  headerText: {
+    fontSize: 25,
+    textAlign: "center",
+    margin: 5
+  },
+  iconsBar: {
+    width: "60%",
+    flexDirection: "row",
+    justifyContent: "space-around"
   }
 });
