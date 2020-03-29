@@ -19,7 +19,6 @@ import {
   reduxGroceryState,
   reduxGroceryAction
 } from "../../types/groceryListsType";
-import ListItemOptions from "./ListItemOptions";
 
 const mapStateToProps = function(
   state: reduxGroceryState

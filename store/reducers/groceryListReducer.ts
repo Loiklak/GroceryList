@@ -60,6 +60,13 @@ function groceryListReducers(
       };
       return nextState;
 
+    case "DELETE_ALL":
+      nextState = {
+        ...state,
+        groceryList: []
+      };
+      return nextState;
+
     default:
       return state;
   }
