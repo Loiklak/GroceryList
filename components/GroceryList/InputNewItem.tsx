@@ -4,17 +4,38 @@ import {
   StyleSheet,
   Keyboard,
   Animated,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { Input, Icon, Text, Overlay } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 import GestureRecognizer from "react-native-swipe-gestures";
 
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
-import { quantityType } from "../../types/groceryListsType";
+import {
+  quantityType,
+  groceryListItem,
+  reduxGroceryState,
+  reduxGroceryAction
+} from "../../types/groceryListsType";
+import ListItemOptions from "./ListItemOptions";
 
-export default connect()(function InputNewItem(props: any) {
+const mapStateToProps = function(
+  state: reduxGroceryState
+): { groceryList: groceryListItem[] } {
+  return {
+    groceryList: state.groceryList
+  };
+};
+
+type InputNewItemProps = ConnectedProps & {
+  groceryList: groceryListItem[];
+};
+
+export default connect(mapStateToProps)(function InputNewItem(
+  props: InputNewItemProps
+) {
   const [newListName, setNewListName] = React.useState("");
   const [quantity, setQuantity] = React.useState(0);
   const [quantityType, setQuantityType] = React.useState<quantityType | "">("");
@@ -42,8 +63,20 @@ export default connect()(function InputNewItem(props: any) {
     { value: "cL" }
   ];
 
+  function flushInputs() {
+    setNewListName("");
+    setQuantity(0);
+    setQuantityType("");
+  }
+
   function addItem() {
-    if (newListName != "" && quantity > 0) {
+    if (
+      props.groceryList.reduce((accumulator, currValue) => {
+        return accumulator || currValue.item.name == newListName;
+      }, false)
+    ) {
+      handleAlreadyExistingItem();
+    } else if (newListName != "" && quantity > 0) {
       Keyboard.dismiss();
       const action = {
         type: "ADD_ITEM",
@@ -57,12 +90,45 @@ export default connect()(function InputNewItem(props: any) {
         }
       };
       props.dispatch(action);
-      setNewListName("");
-      setQuantity(0);
-      setQuantityType("");
+      flushInputs();
     } else {
       setWarningVisibility(true);
     }
+  }
+
+  function handleAlreadyExistingItem() {
+    const redundantItem = props.groceryList.find(
+      item => item.item.name == newListName
+    );
+    Alert.alert(
+      "Cet article existe déjà",
+      `Vous avez déjà ${redundantItem.item.name} dans votre liste, voulez vous augmenter la quantité de ${quantity} ${redundantItem.item.quantityType} ou annuler l'action ?`,
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Ajouter",
+          onPress: () => {
+            modifyQuantity(redundantItem, quantity);
+            flushInputs();
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  function modifyQuantity(listItem: groceryListItem, delta: number) {
+    const action: reduxGroceryAction = {
+      type: "MODIFY_GROCERY_ITEM",
+      value: {
+        ...listItem,
+        item: { ...listItem.item, quantity: listItem.item.quantity + delta }
+      }
+    };
+    props.dispatch(action);
   }
 
   function focusQtyType() {
@@ -140,14 +206,30 @@ export default connect()(function InputNewItem(props: any) {
             containerStyle={{ width: "100%", marginBottom: 5 }}
             onSubmitEditing={addItem}
           />
-          <Icon
-            type="material"
-            name="add"
-            color="#b8eb9b"
-            size={20}
-            reverse
-            onPress={addItem}
-          />
+          <View
+            style={{
+              width: "60%",
+              flexDirection: "row",
+              justifyContent: "space-around"
+            }}
+          >
+            <Icon
+              type="material"
+              name="delete"
+              color="#FF5B31"
+              size={20}
+              reverse
+              onPress={flushInputs}
+            />
+            <Icon
+              type="material"
+              name="add"
+              color="#82EB74"
+              size={20}
+              reverse
+              onPress={addItem}
+            />
+          </View>
         </Animated.View>
       </GestureRecognizer>
       <Overlay

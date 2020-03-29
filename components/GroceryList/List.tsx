@@ -1,14 +1,14 @@
 import React from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import { connect } from "react-redux";
+import { ScrollView } from "react-native-gesture-handler";
 import { Text } from "react-native-elements";
 import ListItem from "./ListItem";
 
+import { connect } from "react-redux";
 import {
   groceryListItem,
   reduxGroceryState
 } from "../../types/groceryListsType";
-import { ScrollView } from "react-native-gesture-handler";
 
 const mapStateToProps = function(
   state: reduxGroceryState
@@ -18,7 +18,11 @@ const mapStateToProps = function(
   };
 };
 
-export default connect(mapStateToProps)(function List(props: any) {
+type ListProps = {
+  groceryList: groceryListItem[];
+};
+
+export default connect(mapStateToProps)(function List(props: ListProps) {
   const [liftDropList, setLiftDropList] = React.useState([]);
   function liftDrops() {
     liftDropList.forEach(liftDrop => liftDrop());

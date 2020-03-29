@@ -2,7 +2,8 @@ import React from "react";
 import Navigator from "./components/Navigation/Navigator";
 import { NavigatorScreenItem } from "./components/Navigation/NavigationTypes";
 import { Provider } from "react-redux";
-import Store from "./store/configureStore";
+import { store, persistor } from "./store/configureStore";
+import { PersistGate } from "redux-persist/integration/react";
 
 import Home from "./components/Home";
 import GroceryListsList from "./components/GroceryListsList/GroceryListsList";
@@ -16,8 +17,10 @@ const pages: NavigatorScreenItem[] = [
 
 export default function App() {
   return (
-    <Provider store={Store}>
-      <Navigator pages={pages} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Navigator pages={pages} />
+      </PersistGate>
     </Provider>
   );
 }
