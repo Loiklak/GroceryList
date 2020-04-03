@@ -14,6 +14,7 @@ type groceryItem = {
 type groceryListItem = {
   item: groceryItem;
   checked: boolean;
+  index: number;
 };
 
 type reduxGroceryState = {

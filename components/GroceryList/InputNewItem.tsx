@@ -85,7 +85,8 @@ export default connect(mapStateToProps)(function InputNewItem(
             quantity: quantity,
             quantityType: quantityType
           },
-          checked: false
+          checked: false,
+          index: props.groceryList.length
         }
       };
       props.dispatch(action);

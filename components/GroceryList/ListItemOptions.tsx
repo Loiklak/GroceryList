@@ -5,6 +5,7 @@ import { Icon, Input } from "react-native-elements";
 type ListItemOptionsProps = {
   deleteItem: () => void;
   modifyQuantity: (newQuantity: number) => void;
+  moveItem: (direction: "up" | "down") => void;
   quantity: number;
 };
 
@@ -46,6 +47,22 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
       </View>
       <View style={styles.rightSide}>
         <Icon
+          type="font-awesome"
+          name="sort-up"
+          color="gray"
+          size={20}
+          reverse
+          onPress={() => props.moveItem("up")}
+        />
+        <Icon
+          type="font-awesome"
+          name="sort-down"
+          color="gray"
+          size={20}
+          reverse
+          onPress={() => props.moveItem("down")}
+        />
+        <Icon
           type="material"
           name="delete"
           color="red"
@@ -67,14 +84,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignSelf: "flex-start",
-    paddingLeft: "5%",
     alignItems: "center"
   },
   rightSide: {
     alignSelf: "flex-end",
     flexDirection: "row",
     justifyContent: "flex-end",
-    flex: 1,
-    paddingRight: "5%"
+    flex: 1
   }
 });

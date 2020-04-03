@@ -101,6 +101,7 @@ export default connect(mapStateToProps)(function List(props: ListProps) {
         <Divider />
         <ScrollView>
           {props.groceryList
+            .sort((a: groceryListItem, b: groceryListItem) => b.index - a.index)
             .sort((a: groceryListItem, b: groceryListItem) => {
               return a.checked ? 1 : b.checked ? -1 : 0;
             })

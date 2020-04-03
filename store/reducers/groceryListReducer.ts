@@ -1,6 +1,7 @@
 import {
   reduxGroceryState,
-  reduxGroceryAction
+  reduxGroceryAction,
+  groceryListItem
 } from "../../types/groceryListsType";
 
 const initialState: reduxGroceryState = { groceryList: [] };
@@ -10,22 +11,32 @@ function groceryListReducers(
   action: reduxGroceryAction
 ) {
   let nextState: reduxGroceryState;
+  let newGroceryList = [...state.groceryList];
   switch (action.type) {
     // Rajouter un item à la liste de courses
     case "ADD_ITEM":
       nextState = {
         ...state,
-        groceryList: [...state.groceryList, action.value]
+        groceryList: [...state.groceryList, action.value].sort(
+          (a: groceryListItem, b: groceryListItem) => b.index - a.index
+        )
       };
       return nextState;
 
     // Supprimer un item de la liste de courses
     case "DELETE_ITEM":
+      newGroceryList = newGroceryList
+        .filter(listItem => listItem.item.name != action.value.item.name)
+        .map(item => {
+          if (item.index > action.value.index) {
+            return { ...item, index: item.index - 1 };
+          } else {
+            return item;
+          }
+        });
       nextState = {
         ...state,
-        groceryList: state.groceryList.filter(
-          listItem => listItem.item.name != action.value.item.name
-        )
+        groceryList: newGroceryList
       };
       return nextState;
 
@@ -34,7 +45,6 @@ function groceryListReducers(
       const itemId = state.groceryList.findIndex(
         listItem => listItem.item.name == action.value.item.name
       );
-      const newGroceryList = [...state.groceryList];
       newGroceryList[itemId] = {
         ...newGroceryList[itemId],
         checked: !newGroceryList[itemId].checked
@@ -67,6 +77,52 @@ function groceryListReducers(
       };
       return nextState;
 
+    // List is sorted in descending order
+    case "MOVE_ITEM_DOWN":
+      if (action.value.index > 0) {
+        let oldIndex = action.value.index;
+        let newIndex = action.value.index - 1;
+        const indexOfItemGoingDown = state.groceryList.findIndex(
+          item => item.index == action.value.index
+        );
+        const indexOfItemGoingUp = state.groceryList.findIndex(
+          item => item.index == action.value.index - 1
+        );
+        newGroceryList[indexOfItemGoingDown].index = newIndex;
+        newGroceryList[indexOfItemGoingUp].index = oldIndex;
+        nextState = {
+          ...state,
+          groceryList: newGroceryList.sort(
+            (a: groceryListItem, b: groceryListItem) => b.index - a.index
+          )
+        };
+        return nextState;
+      } else {
+        return state;
+      }
+
+    case "MOVE_ITEM_UP":
+      if (action.value.index < state.groceryList.length - 1) {
+        let oldIndex = action.value.index;
+        let newIndex = action.value.index + 1;
+        const indexOfItemGoingUp = state.groceryList.findIndex(
+          item => item.index == action.value.index
+        );
+        const indexOfItemGoingDown = state.groceryList.findIndex(
+          item => item.index == action.value.index + 1
+        );
+        newGroceryList[indexOfItemGoingUp].index = newIndex;
+        newGroceryList[indexOfItemGoingDown].index = oldIndex;
+        nextState = {
+          ...state,
+          groceryList: newGroceryList.sort(
+            (a: groceryListItem, b: groceryListItem) => b.index - a.index
+          )
+        };
+        return nextState;
+      } else {
+        return state;
+      }
     default:
       return state;
   }

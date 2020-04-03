@@ -70,6 +70,16 @@ export default connect()(function ListItem(props: ListItemProps) {
     }
   }
 
+  function moveItem(direction: "up" | "down") {
+    const actionType: string =
+      direction == "up" ? "MOVE_ITEM_UP" : "MOVE_ITEM_DOWN";
+    const action: reduxGroceryAction = {
+      type: actionType,
+      value: props.listItem
+    };
+    props.dispatch(action);
+  }
+
   return (
     <View style={styles.container}>
       <CheckBox
@@ -94,6 +104,7 @@ export default connect()(function ListItem(props: ListItemProps) {
         <ListItemOptions
           deleteItem={deleteItem}
           modifyQuantity={modifyQuantity}
+          moveItem={moveItem}
           quantity={props.listItem.item.quantity}
         />
       </Animated.View>
