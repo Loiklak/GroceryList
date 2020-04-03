@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import InputNewItem from "./InputNewItem";
 import List from "./List";
-const backgroundImage = require("./background.png");
+const backgroundImage = require("../../assets/background.png");
 
 export default function GroceryList() {
   return (
