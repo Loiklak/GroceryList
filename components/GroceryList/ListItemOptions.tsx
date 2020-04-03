@@ -19,7 +19,7 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
       <View style={styles.leftSide}>
         <Input
           placeholder="Quantité"
-          containerStyle={{ width: 100 }}
+          containerStyle={{ width: 70 }}
           keyboardType="numeric"
           onChangeText={text =>
             text == ""
@@ -32,16 +32,16 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
           type="material"
           name="add"
           color="gray"
-          size={20}
-          reverse
+          size={18}
+          raised
           onPress={() => modifyQuantity(1)}
         />
         <Icon
           type="material"
           name="remove"
           color="gray"
-          size={20}
-          reverse
+          size={18}
+          raised
           onPress={() => modifyQuantity(-1)}
         />
       </View>
@@ -50,24 +50,24 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
           type="font-awesome"
           name="sort-up"
           color="gray"
-          size={20}
-          reverse
+          size={18}
+          raised
           onPress={() => props.moveItem("up")}
         />
         <Icon
           type="font-awesome"
           name="sort-down"
           color="gray"
-          size={20}
-          reverse
+          size={18}
+          raised
           onPress={() => props.moveItem("down")}
         />
         <Icon
           type="material"
           name="delete"
           color="red"
-          size={20}
-          reverse
+          size={18}
+          raised
           onPress={props.deleteItem}
         />
       </View>
@@ -78,18 +78,20 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    width: "100%"
+    width: "100%",
+    height: "100%"
   },
   leftSide: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignSelf: "flex-start",
+    alignSelf: "center",
     alignItems: "center"
   },
   rightSide: {
-    alignSelf: "flex-end",
     flexDirection: "row",
     justifyContent: "flex-end",
+    alignSelf: "center",
+    alignItems: "center",
     flex: 1
   }
 });
