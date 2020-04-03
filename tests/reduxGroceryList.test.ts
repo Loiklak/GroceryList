@@ -14,11 +14,20 @@ let initialState: reduxGroceryState = { groceryList: [] };
 /** Dispatch an action to the given state and return new state */
 function dispatch(
   action: reduxGroceryAction,
-  state: reduxGroceryState = initialState
+  state: reduxGroceryState
 ): reduxGroceryState {
   return groceryReducer(state, action);
 }
 
+function createAction(
+  type: string,
+  value: groceryListItem
+): reduxGroceryAction {
+  return {
+    type: type,
+    value: value
+  };
+}
 /** Create an action to add an item */
 function createAddAction(
   name: string,
@@ -68,7 +77,10 @@ function createDownAction(item: groceryListItem): reduxGroceryAction {
 
 //----- BEGIN TESTING ---------
 test("Add 1 new item", () => {
-  let state: reduxGroceryState = dispatch(createAddAction("Jambon"));
+  let state: reduxGroceryState = dispatch(
+    createAddAction("Jambon"),
+    initialState
+  );
   expect(state.groceryList).toStrictEqual([
     {
       item: {
@@ -256,4 +268,55 @@ test("Don't move an item down if it is at the bottom", () => {
   expect(
     state.groceryList.find(item => item.item.name === "Jambon").index
   ).toBe(0);
+});
+
+test("Delete all", () => {
+  let state = { ...initialState };
+  for (let item of ["Jambon", "Beurre", "Pain", "Salade", "Saucisson"]) {
+    state = dispatch(createAddAction(item, state), state);
+  }
+  expect(state.groceryList.length).toBe(5);
+  state = dispatch(createAction("DELETE_ALL", null), state);
+  expect(state.groceryList.length).toBe(0);
+});
+
+test("Toggle checkboxes", () => {
+  let state = { ...initialState };
+  for (let item of ["Jambon", "Beurre", "Pain", "Salade", "Saucisson"]) {
+    state = dispatch(createAddAction(item, state), state);
+  }
+  expect(state.groceryList[0].checked).toBe(false);
+  state = dispatch(createAction("TOGGLE_CHECK", state.groceryList[0]), state);
+  expect(state.groceryList[0].checked).toBe(true);
+  state = dispatch(createAction("TOGGLE_CHECK", state.groceryList[0]), state);
+  expect(state.groceryList[0].checked).toBe(false);
+});
+
+test("Modify item", () => {
+  let state = { ...initialState };
+  state = dispatch(createAddAction("Chips", state, 5, "unité"), state);
+  expect(state.groceryList[0].item.name).toBe("Chips");
+  expect(state.groceryList[0].item.quantity).toBe(5);
+  expect(state.groceryList[0].item.quantityType).toBe("unité");
+  expect(state.groceryList[0].checked).toBe(false);
+  expect(state.groceryList[0].index).toBe(0);
+
+  state = dispatch(
+    createAction("MODIFY_GROCERY_ITEM", {
+      checked: true,
+      index: 2,
+      item: {
+        name: "Chips",
+        quantityType: "g",
+        quantity: 10
+      }
+    }),
+    state
+  );
+
+  expect(state.groceryList[0].item.quantity).toBe(10);
+  expect(state.groceryList[0].item.quantityType).toBe("g");
+  expect(state.groceryList[0].checked).toBe(false);
+  expect(state.groceryList[0].index).toBe(0);
+  expect(state.groceryList.length).toBe(1);
 });

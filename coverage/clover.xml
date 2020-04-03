@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1585940336406" clover="3.2.0">
-  <project timestamp="1585940336406" name="All files">
-    <metrics statements="53" coveredstatements="39" conditionals="15" coveredconditionals="10" methods="12" coveredmethods="10" elements="80" coveredelements="59" complexity="0" loc="53" ncloc="53" packages="1" files="1" classes="1"/>
+<coverage generated="1585941636317" clover="3.2.0">
+  <project timestamp="1585941636317" name="All files">
+    <metrics statements="53" coveredstatements="52" conditionals="15" coveredconditionals="13" methods="12" coveredmethods="12" elements="80" coveredelements="77" complexity="0" loc="53" ncloc="53" packages="1" files="1" classes="1"/>
     <file name="groceryListReducer.ts" path="/Users/loicchau/www/ReactNative/listedecourses/store/reducers/groceryListReducer.ts">
-      <metrics statements="53" coveredstatements="39" conditionals="15" coveredconditionals="10" methods="12" coveredmethods="10"/>
+      <metrics statements="53" coveredstatements="52" conditionals="15" coveredconditionals="13" methods="12" coveredmethods="12"/>
       <line num="7" count="1" type="stmt"/>
-      <line num="14" count="47" type="stmt"/>
-      <line num="15" count="47" type="cond" truecount="4" falsecount="4"/>
-      <line num="18" count="41" type="stmt"/>
-      <line num="21" count="136" type="stmt"/>
-      <line num="24" count="41" type="stmt"/>
+      <line num="14" count="62" type="stmt"/>
+      <line num="15" count="62" type="cond" truecount="7" falsecount="1"/>
+      <line num="18" count="52" type="stmt"/>
+      <line num="21" count="170" type="stmt"/>
+      <line num="24" count="52" type="stmt"/>
       <line num="28" count="2" type="stmt"/>
       <line num="29" count="10" type="stmt"/>
       <line num="31" count="8" type="cond" truecount="2" falsecount="0"/>
@@ -17,19 +17,19 @@
       <line num="34" count="5" type="stmt"/>
       <line num="37" count="2" type="stmt"/>
       <line num="41" count="2" type="stmt"/>
-      <line num="45" count="0" type="stmt"/>
-      <line num="46" count="0" type="stmt"/>
-      <line num="48" count="0" type="stmt"/>
-      <line num="52" count="0" type="stmt"/>
-      <line num="56" count="0" type="stmt"/>
-      <line num="59" count="0" type="stmt"/>
-      <line num="60" count="0" type="stmt"/>
-      <line num="62" count="0" type="stmt"/>
-      <line num="63" count="0" type="stmt"/>
-      <line num="67" count="0" type="stmt"/>
-      <line num="71" count="0" type="stmt"/>
-      <line num="74" count="0" type="stmt"/>
-      <line num="78" count="0" type="stmt"/>
+      <line num="45" count="2" type="stmt"/>
+      <line num="46" count="2" type="stmt"/>
+      <line num="48" count="2" type="stmt"/>
+      <line num="52" count="2" type="stmt"/>
+      <line num="56" count="2" type="stmt"/>
+      <line num="59" count="1" type="stmt"/>
+      <line num="60" count="1" type="stmt"/>
+      <line num="62" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="67" count="1" type="stmt"/>
+      <line num="71" count="1" type="stmt"/>
+      <line num="74" count="1" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
       <line num="82" count="2" type="cond" truecount="2" falsecount="0"/>
       <line num="83" count="1" type="stmt"/>
       <line num="84" count="1" type="stmt"/>
