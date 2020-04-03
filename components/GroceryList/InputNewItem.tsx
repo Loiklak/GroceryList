@@ -197,7 +197,9 @@ export default connect(mapStateToProps)(function InputNewItem(
             ref={qtyRef}
             placeholder="Quantité"
             onChangeText={text =>
-              text == "" ? setQuantity(0) : setQuantity(parseInt(text))
+              isNaN(parseInt(text))
+                ? setQuantity(0)
+                : setQuantity(parseInt(text))
             }
             keyboardType="numeric"
             value={quantity == 0 ? null : String(quantity)}
@@ -232,7 +234,8 @@ export default connect(mapStateToProps)(function InputNewItem(
         overlayStyle={{ top: "-30%" }}
       >
         <Text>
-          Rentrez le nom d'un article, une quantité et un type de quantité svp
+          Rentrez le nom d'un article, une quantité positive et un type de
+          quantité svp
         </Text>
       </Overlay>
     </View>
