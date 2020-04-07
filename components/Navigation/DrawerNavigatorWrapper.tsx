@@ -1,9 +1,9 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Text } from "react-native";
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Text } from 'react-native';
 
 // import NavigationHeader from "./NavigationHeader";
-import { openDrawer } from "./NavigationService";
+import { openDrawer } from './NavigationService';
 
 const Stack = createStackNavigator();
 
@@ -12,11 +12,11 @@ const Stack = createStackNavigator();
  * @param {string} screenName : Title on the header of the component
  * @param {React.ComponentType} component : React component to be rendered
  */
-export default function(
+export default function (
   screenName: string,
   component: React.ComponentType
 ): React.ComponentType {
-  return function DrawerNavigatorWrapper() {
+  return function DrawerNavigatorWrapper(): JSX.Element {
     return (
       <Stack.Navigator headerMode="screen">
         <Stack.Screen
@@ -24,15 +24,17 @@ export default function(
           component={component}
           options={{
             title: screenName,
-            headerTitleAlign: "center",
-            headerLeft: () => (
-              <Text
-                style={{ fontSize: 20, padding: 10 }}
-                onPress={() => openDrawer()}
-              >
-                Menu
-              </Text>
-            )
+            headerTitleAlign: 'center',
+            headerLeft: function headerLeft(): React.ReactNode {
+              return (
+                <Text
+                  style={{ fontSize: 20, padding: 10 }}
+                  onPress={(): void => openDrawer()}
+                >
+                  Menu
+                </Text>
+              );
+            },
             /* If you want to set a handmade header :
              header: NavigationHeader
              */

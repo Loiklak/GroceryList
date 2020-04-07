@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import { groceryList, groceryListKey } from "./storageTypes";
+import AsyncStorage from '@react-native-community/async-storage';
+import { groceryList, groceryListKey } from './storageTypes';
 
 const getData = async (storage_key: string) => {
   try {
@@ -31,7 +31,7 @@ const mergeData = async (storage_key: string, storage_data_to_add: string) => {
 function addNewGroceryList(name: string) {
   const newData = {
     GroceryLists: {
-      name: name
-    }
+      name: name,
+    },
   };
 }
