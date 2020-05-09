@@ -1,13 +1,13 @@
-import React from "react";
-import { View, StyleSheet, Animated } from "react-native";
-import { connect } from "react-redux";
-import { CheckBox } from "react-native-elements";
-import ListItemOptions from "./ListItemOptions";
+import React from 'react';
+import { View, StyleSheet, Animated } from 'react-native';
+import { connect } from 'react-redux';
+import { CheckBox } from 'react-native-elements';
+import ListItemOptions from './ListItemOptions';
 
 import {
   groceryListItem,
-  reduxGroceryAction
-} from "../../types/groceryListsType";
+  reduxGroceryAction,
+} from '../../types/groceryListsType';
 
 type ListItemProps = {
   listItem: groceryListItem;
@@ -17,9 +17,9 @@ type ListItemProps = {
 
 export default connect()(function ListItem(props: ListItemProps) {
   function formatGroceryName(item: groceryListItem) {
-    const accordEnNombre = item.item.quantity > 1 ? "s" : "";
+    const accordEnNombre = item.item.quantity > 1 ? 's' : '';
     const quantity =
-      item.item.quantityType == "unité"
+      item.item.quantityType == 'unité'
         ? `${item.item.quantity}`
         : `${item.item.quantity} ${item.item.quantityType} de`;
     return `${quantity} ${item.item.name}`;
@@ -30,28 +30,28 @@ export default connect()(function ListItem(props: ListItemProps) {
     props.addLiftDrop(liftOptions);
     Animated.timing(dropdownSize, {
       toValue: 60,
-      duration: 300
+      duration: 300,
     }).start();
   }
   function liftOptions() {
     Animated.timing(dropdownSize, {
       toValue: 0,
-      duration: 200
+      duration: 200,
     }).start();
   }
 
   function deleteItem() {
     const action = {
-      type: "DELETE_ITEM",
-      value: props.listItem
+      type: 'DELETE_ITEM',
+      value: props.listItem,
     };
     props.dispatch(action);
   }
 
   function toggleCheck() {
     const action = {
-      type: "TOGGLE_CHECK",
-      value: props.listItem
+      type: 'TOGGLE_CHECK',
+      value: props.listItem,
     };
     props.dispatch(action);
     liftOptions();
@@ -60,22 +60,22 @@ export default connect()(function ListItem(props: ListItemProps) {
   function modifyQuantity(newQuantity: number) {
     if (newQuantity >= 0) {
       const action: reduxGroceryAction = {
-        type: "MODIFY_GROCERY_ITEM",
+        type: 'MODIFY_GROCERY_ITEM',
         value: {
           ...props.listItem,
-          item: { ...props.listItem.item, quantity: newQuantity }
-        }
+          item: { ...props.listItem.item, quantity: newQuantity },
+        },
       };
       props.dispatch(action);
     }
   }
 
-  function moveItem(direction: "up" | "down") {
+  function moveItem(direction: 'up' | 'down') {
     const actionType: string =
-      direction == "up" ? "MOVE_ITEM_UP" : "MOVE_ITEM_DOWN";
+      direction == 'up' ? 'MOVE_ITEM_UP' : 'MOVE_ITEM_DOWN';
     const action: reduxGroceryAction = {
       type: actionType,
-      value: props.listItem
+      value: props.listItem,
     };
     props.dispatch(action);
   }
@@ -92,13 +92,13 @@ export default connect()(function ListItem(props: ListItemProps) {
       />
       <Animated.View
         style={{
-          alignItems: "center",
-          width: "94%",
+          alignItems: 'center',
+          width: '94%',
           //backgroundColor: "aqua",
-          marginLeft: "auto",
-          marginRight: "auto",
+          marginLeft: 'auto',
+          marginRight: 'auto',
           height: dropdownSize,
-          overflow: "hidden"
+          overflow: 'hidden',
         }}
       >
         <ListItemOptions
@@ -115,5 +115,5 @@ export default connect()(function ListItem(props: ListItemProps) {
 const styles = StyleSheet.create({
   container: {
     //backgroundColor: "green"
-  }
+  },
 });

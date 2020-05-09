@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
-  Alert
-} from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { Text, Icon, Divider } from "react-native-elements";
-import ListItem from "./ListItem";
+  Alert,
+} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Text, Icon, Divider } from 'react-native-elements';
+import ListItem from './ListItem';
 
-import { connect, ConnectedProps } from "react-redux";
+import { connect, ConnectedProps } from 'react-redux';
 import {
   groceryListItem,
-  reduxGroceryState
-} from "../../types/groceryListsType";
+  reduxGroceryState,
+} from '../../types/groceryListsType';
 
-const mapStateToProps = function(
+const mapStateToProps = function (
   state: reduxGroceryState
 ): { groceryList: groceryListItem[] } {
   return {
-    groceryList: state.groceryList
+    groceryList: state.groceryList,
   };
 };
 
@@ -30,7 +30,7 @@ type ListProps = ConnectedProps & {
 export default connect(mapStateToProps)(function List(props: ListProps) {
   const [liftDropList, setLiftDropList] = React.useState([]);
   function liftDrops() {
-    liftDropList.forEach(liftDrop => liftDrop());
+    liftDropList.forEach((liftDrop) => liftDrop());
     setLiftDropList([]);
   }
   function addLiftDrop(newLiftDrop) {
@@ -42,23 +42,23 @@ export default connect(mapStateToProps)(function List(props: ListProps) {
 
   function flushItems() {
     Alert.alert(
-      "Attention",
-      "Êtes vous sûr.e de vouloir supprimer toute votre liste de course ?",
+      'Attention',
+      'Êtes vous sûr.e de vouloir supprimer toute votre liste de course ?',
       [
         {
-          text: "Annuler",
-          style: "cancel"
+          text: 'Annuler',
+          style: 'cancel',
         },
         {
-          text: "Confirmer",
+          text: 'Confirmer',
           onPress: () => {
             const action = {
-              type: "DELETE_ALL",
-              value: {}
+              type: 'DELETE_ALL',
+              value: {},
             };
             props.dispatch(action);
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -69,12 +69,12 @@ export default connect(mapStateToProps)(function List(props: ListProps) {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={{ flex: 1, paddingLeft: 10 }} />
-          <View style={{ flex: 1, justifyContent: "center" }}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
             <Text
               style={{
-                textAlign: "center",
+                textAlign: 'center',
                 margin: 5,
-                fontSize: 30
+                fontSize: 30,
               }}
             >
               Liste
@@ -83,8 +83,8 @@ export default connect(mapStateToProps)(function List(props: ListProps) {
           <View
             style={{
               flex: 1,
-              alignItems: "flex-end",
-              paddingRight: 10
+              alignItems: 'flex-end',
+              paddingRight: 10,
             }}
           >
             <Icon
@@ -122,11 +122,11 @@ const styles = StyleSheet.create({
   container: {
     margin: 5,
     flex: 1,
-    backgroundColor: "rgba(256, 256, 256, 0.9)",
-    borderRadius: 10
+    backgroundColor: 'rgba(256, 256, 256, 0.9)',
+    borderRadius: 10,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "center"
-  }
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });

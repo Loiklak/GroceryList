@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Icon, Input } from "react-native-elements";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Icon, Input } from 'react-native-elements';
 
 type ListItemOptionsProps = {
   deleteItem: () => void;
   modifyQuantity: (newQuantity: number) => void;
-  moveItem: (direction: "up" | "down") => void;
+  moveItem: (direction: 'up' | 'down') => void;
   quantity: number;
 };
 
@@ -21,8 +21,8 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
           placeholder="Quantité"
           containerStyle={{ width: 70 }}
           keyboardType="numeric"
-          onChangeText={text =>
-            text == ""
+          onChangeText={(text) =>
+            text == ''
               ? props.modifyQuantity(0)
               : props.modifyQuantity(parseInt(text))
           }
@@ -52,7 +52,7 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
           color="gray"
           size={18}
           raised
-          onPress={() => props.moveItem("up")}
+          onPress={() => props.moveItem('up')}
         />
         <Icon
           type="font-awesome"
@@ -60,7 +60,7 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
           color="gray"
           size={18}
           raised
-          onPress={() => props.moveItem("down")}
+          onPress={() => props.moveItem('down')}
         />
         <Icon
           type="material"
@@ -77,21 +77,21 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: "row",
-    width: "100%",
-    height: "100%"
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
   },
   leftSide: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignSelf: "center",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   rightSide: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignSelf: "center",
-    alignItems: "center",
-    flex: 1
-  }
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
 });

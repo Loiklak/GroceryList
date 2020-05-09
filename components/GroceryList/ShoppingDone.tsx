@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import { Text } from "react-native-elements";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { Text } from 'react-native-elements';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    groceryList: state.groceryList
+    groceryList: state.groceryList,
   };
 };
 
@@ -24,5 +24,5 @@ export default connect(mapStateToProps)(function List(props: any) {
 });
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 });

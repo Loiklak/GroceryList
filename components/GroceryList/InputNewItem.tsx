@@ -1,29 +1,29 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   StyleSheet,
   Keyboard,
   Animated,
   TouchableOpacity,
-  Alert
-} from "react-native";
-import { Input, Icon, Text, Overlay, Divider } from "react-native-elements";
-import { Dropdown } from "react-native-material-dropdown";
-import GestureRecognizer from "react-native-swipe-gestures";
-import { connect, ConnectedProps } from "react-redux";
+  Alert,
+} from 'react-native';
+import { Input, Icon, Text, Overlay, Divider } from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   quantityType,
   groceryListItem,
   reduxGroceryState,
-  reduxGroceryAction
-} from "../../types/groceryListsType";
+  reduxGroceryAction,
+} from '../../types/groceryListsType';
 
 // Props and redux
-const mapStateToProps = function(
+const mapStateToProps = function (
   state: reduxGroceryState
 ): { groceryList: groceryListItem[] } {
   return {
-    groceryList: state.groceryList
+    groceryList: state.groceryList,
   };
 };
 type InputNewItemProps = ConnectedProps & {
@@ -33,9 +33,9 @@ type InputNewItemProps = ConnectedProps & {
 export default connect(mapStateToProps)(function InputNewItem(
   props: InputNewItemProps
 ) {
-  const [newArticle, setNewArticle] = React.useState("");
+  const [newArticle, setNewArticle] = React.useState('');
   const [quantity, setQuantity] = React.useState(0);
-  const [quantityType, setQuantityType] = React.useState<quantityType | "">("");
+  const [quantityType, setQuantityType] = React.useState<quantityType | ''>('');
   const [warningVisibility, setWarningVisibility] = React.useState(false);
   const [dropdownSize, setDropdownSize] = React.useState(
     new Animated.Value(230)
@@ -45,27 +45,27 @@ export default connect(mapStateToProps)(function InputNewItem(
     (dropdownSize as any)._value == 0 && focusArticleName();
     Animated.timing(dropdownSize, {
       toValue: value,
-      duration: 300
+      duration: 300,
     }).start();
   }
 
-  let qtyRef = React.useRef<Input>();
-  let qtyTypeRef = React.useRef<HTMLElement>();
-  let articleRef = React.useRef<Input>();
+  const qtyRef = React.useRef<Input>();
+  const qtyTypeRef = React.useRef<HTMLElement>();
+  const articleRef = React.useRef<Input>();
 
   const quantityTypes = [
-    { value: "unité" },
-    { value: "bouteille" },
-    { value: "kg" },
-    { value: "g" },
-    { value: "L" },
-    { value: "cL" }
+    { value: 'unité' },
+    { value: 'bouteille' },
+    { value: 'kg' },
+    { value: 'g' },
+    { value: 'L' },
+    { value: 'cL' },
   ];
 
   function flushInputs() {
-    setNewArticle("");
+    setNewArticle('');
     setQuantity(0);
-    setQuantityType("");
+    setQuantityType('');
   }
 
   function addItem() {
@@ -75,19 +75,19 @@ export default connect(mapStateToProps)(function InputNewItem(
       }, false)
     ) {
       handleAlreadyExistingItem();
-    } else if (newArticle != "" && quantity > 0) {
+    } else if (newArticle != '' && quantity > 0) {
       Keyboard.dismiss();
       const action = {
-        type: "ADD_ITEM",
+        type: 'ADD_ITEM',
         value: {
           item: {
             name: newArticle,
             quantity: quantity,
-            quantityType: quantityType
+            quantityType: quantityType,
           },
           checked: false,
-          index: props.groceryList.length
-        }
+          index: props.groceryList.length,
+        },
       };
       props.dispatch(action);
       flushInputs();
@@ -98,23 +98,23 @@ export default connect(mapStateToProps)(function InputNewItem(
 
   function handleAlreadyExistingItem() {
     const redundantItem = props.groceryList.find(
-      item => item.item.name == newArticle
+      (item) => item.item.name == newArticle
     );
     Alert.alert(
-      "Cet article existe déjà",
+      'Cet article existe déjà',
       `Vous avez déjà ${redundantItem.item.name} dans votre liste, voulez vous augmenter la quantité de ${quantity} ${redundantItem.item.quantityType} ou annuler l'action ?`,
       [
         {
-          text: "Annuler",
-          style: "cancel"
+          text: 'Annuler',
+          style: 'cancel',
         },
         {
-          text: "Ajouter",
+          text: 'Ajouter',
           onPress: () => {
             modifyQuantity(redundantItem, quantity);
             flushInputs();
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -122,21 +122,21 @@ export default connect(mapStateToProps)(function InputNewItem(
 
   function modifyQuantity(listItem: groceryListItem, delta: number) {
     const action: reduxGroceryAction = {
-      type: "MODIFY_GROCERY_ITEM",
+      type: 'MODIFY_GROCERY_ITEM',
       value: {
         ...listItem,
-        item: { ...listItem.item, quantity: listItem.item.quantity + delta }
-      }
+        item: { ...listItem.item, quantity: listItem.item.quantity + delta },
+      },
     };
     props.dispatch(action);
   }
 
   function focusArticleName() {
-    newArticle == "" && articleRef.current.focus();
+    newArticle == '' && articleRef.current.focus();
   }
 
   function focusQtyType() {
-    quantityType == "" && qtyTypeRef.current.focus();
+    quantityType == '' && qtyTypeRef.current.focus();
   }
 
   function focusQty() {
@@ -149,7 +149,7 @@ export default connect(mapStateToProps)(function InputNewItem(
     // sensibilité de déplacer pour trancher entre un clic et un swipe
     gestureIsClickThreshold: 1,
     // déplacement max pour un swipe
-    directionalOffsetThreshold: 100
+    directionalOffsetThreshold: 100,
   };
 
   return (
@@ -166,29 +166,29 @@ export default connect(mapStateToProps)(function InputNewItem(
         <Animated.View
           style={{
             height: dropdownSize,
-            width: "auto",
-            overflow: "hidden",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            flexWrap: "wrap"
+            width: 'auto',
+            overflow: 'hidden',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            flexWrap: 'wrap',
           }}
         >
           <Input
             ref={articleRef}
             placeholder="Nouvel article"
-            onChangeText={text => setNewArticle(text)}
+            onChangeText={(text) => setNewArticle(text)}
             value={newArticle}
-            containerStyle={{ width: "100%" }}
+            containerStyle={{ width: '100%' }}
             onSubmitEditing={focusQtyType}
           />
           <Dropdown
             ref={qtyTypeRef}
             label="Type de qté"
             data={quantityTypes}
-            containerStyle={{ width: "95%" }}
+            containerStyle={{ width: '95%' }}
             value={quantityType}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setQuantityType(text);
               setTimeout(() => focusQty(), 500);
             }}
@@ -196,14 +196,14 @@ export default connect(mapStateToProps)(function InputNewItem(
           <Input
             ref={qtyRef}
             placeholder="Quantité"
-            onChangeText={text =>
+            onChangeText={(text) =>
               isNaN(parseInt(text))
                 ? setQuantity(0)
                 : setQuantity(parseInt(text))
             }
             keyboardType="numeric"
             value={quantity == 0 ? null : String(quantity)}
-            containerStyle={{ width: "100%", marginBottom: 5 }}
+            containerStyle={{ width: '100%', marginBottom: 5 }}
             onSubmitEditing={addItem}
           />
           <View style={styles.iconsBar}>
@@ -231,7 +231,7 @@ export default connect(mapStateToProps)(function InputNewItem(
         onBackdropPress={() => setWarningVisibility(false)}
         width="75%"
         height="auto"
-        overlayStyle={{ top: "-30%" }}
+        overlayStyle={{ top: '-30%' }}
       >
         <Text>
           Rentrez le nom d'un article, une quantité positive et un type de
@@ -245,22 +245,22 @@ export default connect(mapStateToProps)(function InputNewItem(
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    backgroundColor: "rgba(256, 256, 256, 0.96)",
+    backgroundColor: 'rgba(256, 256, 256, 0.96)',
     borderRadius: 10,
-    margin: 5
+    margin: 5,
   },
   header: {
-    backgroundColor: "white",
-    borderRadius: 10
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   headerText: {
     fontSize: 25,
-    textAlign: "center",
-    margin: 5
+    textAlign: 'center',
+    margin: 5,
   },
   iconsBar: {
-    width: "60%",
-    flexDirection: "row",
-    justifyContent: "space-around"
-  }
+    width: '60%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
 });
