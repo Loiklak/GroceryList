@@ -48,19 +48,19 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
       <View style={styles.rightSide}>
         <Icon
           type="font-awesome"
-          name="sort-up"
-          color="gray"
-          size={18}
-          raised
-          onPress={() => props.moveItem('up')}
-        />
-        <Icon
-          type="font-awesome"
           name="sort-down"
           color="gray"
           size={18}
           raised
           onPress={() => props.moveItem('down')}
+        />
+        <Icon
+          type="font-awesome"
+          name="sort-up"
+          color="gray"
+          size={18}
+          raised
+          onPress={() => props.moveItem('up')}
         />
         <Icon
           type="material"
