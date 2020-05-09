@@ -16,7 +16,7 @@ export default function GroceryList(): React.ReactNode {
           height: '100%',
           justifyContent: 'center',
         }}
-        source={{ uri: '../../assets/background.png' }}
+        source={require('../../assets/background.png')}
       />
       <InputNewItem />
       <List style={styles.list} />
