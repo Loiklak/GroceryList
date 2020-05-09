@@ -30,19 +30,19 @@ export default function ListItemOptions(props: ListItemOptionsProps) {
         />
         <Icon
           type="material"
-          name="add"
-          color="gray"
-          size={18}
-          raised
-          onPress={() => modifyQuantity(1)}
-        />
-        <Icon
-          type="material"
           name="remove"
           color="gray"
           size={18}
           raised
           onPress={() => modifyQuantity(-1)}
+        />
+        <Icon
+          type="material"
+          name="add"
+          color="gray"
+          size={18}
+          raised
+          onPress={() => modifyQuantity(1)}
         />
       </View>
       <View style={styles.rightSide}>
