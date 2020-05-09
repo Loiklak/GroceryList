@@ -53,8 +53,10 @@ export default connect(mapStateToProps)(function InputNewItem(
   const qtyTypeRef = React.useRef<HTMLElement>();
   const articleRef = React.useRef<Input>();
 
-  const quantityTypes = [
+  const quantityTypes: { value: quantityType }[] = [
     { value: 'unité' },
+    { value: 'boîte' },
+    { value: 'rien' },
     { value: 'bouteille' },
     { value: 'kg' },
     { value: 'g' },

@@ -3,7 +3,15 @@ type groceryList = {
   icon: string;
 };
 
-type quantityType = "kg" | "g" | "unité" | "L" | "cL" | "bouteille";
+type quantityType =
+  | 'kg'
+  | 'g'
+  | 'unité'
+  | 'boîte'
+  | 'rien'
+  | 'L'
+  | 'cL'
+  | 'bouteille';
 
 type groceryItem = {
   name: string;
@@ -32,5 +40,5 @@ export {
   groceryListItem,
   reduxGroceryState,
   reduxGroceryAction,
-  quantityType
+  quantityType,
 };

@@ -7,6 +7,7 @@ import ListItemOptions from './ListItemOptions';
 import {
   groceryListItem,
   reduxGroceryAction,
+  quantityType,
 } from '../../types/groceryListsType';
 
 type ListItemProps = {
@@ -17,11 +18,20 @@ type ListItemProps = {
 
 export default connect()(function ListItem(props: ListItemProps) {
   function formatGroceryName(item: groceryListItem) {
-    const accordEnNombre = item.item.quantity > 1 ? 's' : '';
+    const pluralQuantities: quantityType[] = ['boîte', 'bouteille'];
+    /** rajoute un s à boîte si il y en a plusieurs */
+    const accordEnNombre =
+      pluralQuantities.includes(item.item.quantityType) &&
+      item.item.quantity > 1
+        ? 's'
+        : '';
+
+    if (item.item.quantityType === 'rien')
+      return `${item.item.quantity} ${item.item.name}`;
     const quantity =
       item.item.quantityType == 'unité'
         ? `${item.item.quantity}`
-        : `${item.item.quantity} ${item.item.quantityType} de`;
+        : `${item.item.quantity} ${item.item.quantityType}${accordEnNombre} de`;
     return `${quantity} ${item.item.name}`;
   }
 
